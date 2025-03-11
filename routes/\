@@ -1,0 +1,100 @@
+var path = require('path');
+
+const express = require("express");
+const router = express.Router();
+const db = require("../database/connection");
+
+router.use(
+	express.urlencoded({
+		extended:true	
+	})
+);
+router.use(express.json()); 
+
+router.get("/", (req, res) => {
+	console.log("home route"); 
+	res.render('home', {title: 'Jordan\'s Cookbook'});
+});
+
+router.post("/", (req,res) => {
+	console.log(req.body);
+	res.render('home', {title: 'Jordan\'s Cookbook'});
+});
+
+router.get("/add", (req, res) => {
+	console.log("add recipe"); 
+	let types = ["chicken", "beef", "egg", "sausage"]; 
+	console.log(types); 
+	res.render('addRecipe', {title: "Add Recipe", types:types}); 
+});
+
+router.get("/recipe",(req,res) => {
+	console.log("recipe route");
+	res.render('index', {title: 'Recipes List'});
+	console.log(res);
+});
+
+router.get("/chicken", (req,res) => {
+	console.log("chicken route");
+	let sql = `SELECT * FROM recipes WHERE type = 'Chicken';`;
+	db.query(sql, (err,result) => {
+		if(err) throw err;
+		console.log(result);
+		res.render('recipeList',{title:'Chicken Recipes', recipes: result});
+	});
+});
+
+router.post("/food", (req,res) => { 
+	console.log("chicken route post success");
+	console.log(req.body.item);
+
+	let recipeSQL = "select * from recipes r where r.FoodName = " + db.escape(req.body.item) + ";";
+	db.query(recipeSQL, (err,result) => {
+		if(err) throw err;
+		let recipeInfo = result; 
+		let ingredientsSQL = "select i.Name, i.Info from ingredients i inner join recipesIngredients rI on (i.IngredientID = rI.IngredientID) inner join recipes on (rI.RecipeID = (select r.RecipeID from recipes r where r.FoodName = " + db.escape(req.body.item) + "));";
+		db.query(ingredientsSQL, (err,ingred) => {
+			if(err) throw err; 
+			console.log("Data retrieved")
+			console.log(recipeInfo)
+			console.log(ingred)
+			res.render('food', {title: req.body.item, recipes:recipeInfo, ingredients:ingred})
+		});
+	});
+});
+
+
+
+router.get("/beef", (req,res) => {
+	console.log("beef route");
+	let sql = `SELECT * FROM recipes WHERE type = 'Beef';`;
+	db.query(sql, (err,result) => {
+		if(err) throw err;
+		console.log(result);
+		res.render('recipeList',{title:'Beef Recipes', recipes: result});
+	})
+});
+
+router.get("/sausage", (req,res) => {
+	console.log("sausage route");
+	let sql = `SELECT * FROM recipes WHERE type = 'Sausage';`;
+	db.query(sql, (err,result) => {
+		if(err) throw err;
+		console.log(result);
+		res.render('recipeList',{title:'Sausage Recipes', recipes: result});
+	})
+});
+
+router.get("/egg", (req,res) => {
+	console.log("egg route");
+	let sql = `SELECT * FROM recipes WHERE type = 'Egg';`;
+	db.query(sql, (err,result) => {
+		if(err) throw err;
+		console.log(result);
+		res.render('recipeList',{title:'Egg Recipes', recipes: result});
+	})
+});
+
+
+module.exports = router; 
+

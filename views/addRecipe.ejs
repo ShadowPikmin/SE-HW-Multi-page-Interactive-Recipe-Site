@@ -1,0 +1,132 @@
+<%- include('./partials/header') %> 
+	<script> 
+		function addInputField(){
+			console.log("reached");
+
+			var mydiv = document.getElementById("fieldContainer");
+			var label = document.createElement('label');
+			label.for = "ingredients"; 
+			label.innerHTML = 'Ingredients: ';
+			mydiv.appendChild(label);
+
+			const select = document.createElement('select');
+			select.name = "ingredients" 
+
+			<% ingredients.forEach((ingred) => { %> 
+				var opt = document.createElement('option'); 
+				opt.value = "<%= ingred.name %>"; 
+				opt.innerHTML = "<%= ingred.name %>"; 
+				select.appendChild(opt);
+			<% }); %> 
+
+			
+			mydiv.appendChild(select);
+ 			
+			label = document.createElement('label');
+			label.for = "quantity"; 
+			label.innerHTML = ' Quantity: ';
+			mydiv.appendChild(label);
+
+			const quantity = document.createElement('input');
+			quantity.type = "number"; 
+			quantity.name = "quantity"; 
+			quantity.max = "500";
+			quantity.min = "1";
+			quantity.value = "1";
+			mydiv.appendChild(quantity);
+
+
+			var mydiv = document.getElementById("fieldContainer");
+			var label = document.createElement('label');
+			label.for = "ingredients"; 
+			label.innerHTML = ' Unit: ';
+			mydiv.appendChild(label);
+
+			const unitSelect = document.createElement('select');
+			unitSelect.name = "units" 
+
+			<%  units.forEach((unit) => { %> 
+				var opt = document.createElement('option'); 
+				opt.value = "<%= unit.unit %>"; 
+				opt.innerHTML = "<%= unit.unit %>"; 
+				unitSelect.appendChild(opt);
+			<% }); %> 
+			mydiv.appendChild(unitSelect);
+			
+			mydiv.appendChild(document.createElement("br")); 
+		}
+
+		function validateForm() {
+
+			let x = document.forms["recipeForm"]["name"].value;
+			if(x === ""){
+				alert("Please enter a name for the recipe");
+				return false; 
+			};
+
+			<% foods.forEach((food) => { %>       
+				if (x === "<%= food.FoodName %>"){
+					alert("Food name already exist. If this is a new recipe please give it a new name.")
+					return false; 
+				}
+			<% }); %> 
+
+			x = document.forms["recipeForm"]["instruction"].value;
+			if(x === ""){
+				alert("Please input instructions in the text box");
+				return false; 
+			};
+			return true;
+		}	
+	</script> 
+
+	<body> 
+		<h1 style="text-align:center;">New Recipe</h1>
+		<form name="recipeForm" action="/" method="post" onsubmit="return validateForm();" id="recipeForm"> 
+			<div class="input"> 
+				<label name="nameForm" for="name">Recipe Name:</label>
+				<input type="text" name="name"><br>
+
+				<label name="typeForm" for="type">Recipe Type:</label> 
+				<select name="type"> 
+					<% types.forEach((type) => { %> 
+						<option value="<%= type.type %>"><%= type.type %></option> 
+					<% }) %>
+				</select><br>
+				
+				<label name="ingredientsForm" for="ingredients">Ingredients:</label> 
+				<select name="ingredients">
+					<% ingredients.forEach((ingred) => { %> 
+						<option value="<%= ingred.name %>"><%= ingred.name %></option> 
+					<% }) %> 
+				</select>
+
+				<label name="quantityForm" for="quantity">Quantity: </label>
+				<input type="number" name="quantity" min="1" max="500" value="1">
+
+				<label name="unitsForm" for="units">Unit: </label>
+				<select name="units">
+					<% units.forEach((unit) => { %> 
+						<option value="<%= unit.unit %>"><%= unit.unit %></option>
+					<% }) %> 
+				</select><br>
+
+				<div id="fieldContainer"></div> 
+				<a onclick="addInputField()">Another Ingredient</a><br> 
+
+				<label name="instructionForm" for="instruction">Instructions:</label><br>  
+				<textarea name="instruction" cols="30" rows="10"  maxlength="1000" wrap="soft"></textarea><br>
+		</div>
+			
+		<div class="button-group"> 	
+			<button class="submit" type="submit" value="Submit Recipe">Submit Recipe</button>
+
+			<form action="/">
+				<button class="home" type="submit" value="Home Page" onclick="window.location=`/`; return false;">Home Page</button>
+			</form> 
+		</div>
+
+		</form> 
+	</body>
+</html> 
+

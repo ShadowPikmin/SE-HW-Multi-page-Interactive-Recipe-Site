@@ -1,0 +1,76 @@
+<%- include('./partials/header') %>
+  <body>
+	<div class="type-table"> 
+		<table>
+			<tr>
+				<th>Chicken</th>
+			</tr>	
+
+			<% chickens.forEach((chicken) => { %> 
+				<tr> 
+					<td> 
+						<form action="/food" method="post"> 
+							<button id="food" type="submit" name="item" value="<%= chicken.FoodName %>"><%= chicken.FoodName %></button> 
+						</form>
+					 </td>
+				</tr>
+			<% }) %> 
+		</table>
+
+		<table> 
+			<tr>
+				<th>Beef</th>
+			</tr>
+
+			<% beefs.forEach((beef) => { %> 
+				<tr>
+					<td>
+						<form action="/food" method="post"> 
+							<button id="food" type="submit" name="item" value="<%= beef.FoodName %>"><%= beef.FoodName %></button> 
+						</form>
+					</td>
+				</tr>
+			<% }) %> 
+		</table>
+
+		<table> 
+			<tr>
+				<th>Sausage</th>
+			</tr>
+
+			<% sausages.forEach((sausage) => { %> 
+				<tr> 
+					<td>
+						<form action="/food" method="post"> 
+							<button id="food" type="submit" name="item" value="<%= sausage.FoodName %>"><%= sausage.FoodName %></button> 
+						</form>
+					</td>
+				</tr>
+			<% }) %> 
+		</table>
+
+		<table> 
+			<tr>
+				<th>Egg</th>
+			</tr>
+
+			<% eggs.forEach((egg) => { %> 
+				<tr> 
+					<td>
+						<form action="/food" method="post"> 
+							<button id="food" type="submit" name="item" value="<%= egg.FoodName %>"><%= egg.FoodName %></button> 
+						</form>
+					</td>
+				</tr>
+			<% }) %> 
+		</table>
+	</div>
+
+	<div class="button-group">
+		<form action="/">
+
+			<input type="submit" class="home" value="Back to Home">
+		</form> 
+	</div>
+
+</html>

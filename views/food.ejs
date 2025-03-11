@@ -1,0 +1,51 @@
+<%- include('./partials/header') %>
+
+	<body>
+
+		<script> 
+			function showPopup(element){
+				const popup = element.querySelector(".popup");
+				popup.style.display = "block";
+			}
+
+			function hidePopup(element) { 
+				const popup = element.querySelector(".popup");
+				popup.style.display = "none";
+			}
+		</script> 
+
+		<div class="row"> 
+
+			<div class="column" id="instructions"> 
+				<h3>Instructions</h3>
+				<% recipes.forEach((recipe) => { %>
+					<h4><%= recipe.Instructions%></h4>
+				<% }) %> 
+			</div>
+
+			<div class="column" id="ingredients"> 
+				<h3>Ingredients</h3> 
+				<% ingredients.forEach((ingredient) => { %> 
+					<div class="hover-box" onmouseover="showPopup(this)" onmouseleave="hidePopup(this)"> 
+					    <h4><%= ingredient.Name%></h4> 
+						<div class="popup"><%=ingredient.Info %></div> 
+					</div> 
+				<% }) %> 
+			</div>
+		</div>
+
+		<div class="button-group">
+			<form action="/recipe">
+
+				<input type="submit" id="recipe-list" value="Go back to Recipe">
+			</form> 
+		
+			
+			<form action="/"> 
+				<input type="submit" id="add-recipe" value="Go Home" > 
+			</form> 
+		</div>
+	</div> 
+
+	</body> 
+</html> 

@@ -1,0 +1,24 @@
+<%- include('./partials/header') %>
+	<script type="text/javascipt" src="recipe.js"></script> 
+
+    <body> 
+        <table>
+            <tr>   
+                <th>Food</th>
+            </tr>
+            <% recipes.forEach((recipe) => { %> 
+                <tr>
+					<th class="food"> 
+						<form action="/food" method="post"> 
+							<button type="submit" name="item" value="<%= recipe.FoodName %>"><%= recipe.FoodName %></button> 
+						</form>
+					</th>
+                </tr>
+            <% })%> 
+        </table>
+
+		<form action="/">
+			<button class="home" type="submit" value="Home Page">Home Page</button>
+		</form> 
+    </body>
+</html>
